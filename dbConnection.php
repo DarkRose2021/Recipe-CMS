@@ -13,76 +13,224 @@ function getConnection()
     return $dbConnection;
 }
 
-function createUser($username, $passwordHash): mysqli_result|bool
+function getAllRoles(): array
 {
-    $query = "INSERT into `User` (UserName, PasswordHash) values (?, ?)";
-    return getConnection()->execute_query($query, [$username, $passwordHash]);
+    $query = 'SELECT * FROM `Roles`';
+    $response = getConnection()->execute_query($query);
+
+    return $response->fetch_all(MYSQLI_ASSOC);
 }
 
-function getUserByUsername($username): false|array|null
+function createRole($role, $description): mysqli_result|bool
 {
-    $query = "SELECT * from `User` where UserName = ?";
-    $response = getConnection()->execute_query($query, [$username]);
-
-    return $response->fetch_assoc();
+    $query = "INSERT into `Roles` (Role, RoleDescription) values (?, ?)";
+    return getConnection()->execute_query($query, [$role, $description]);
 }
 
-function getUserById($id): false|array|null
+function getRoleById($id): false|array|null
 {
-    $query = "SELECT * from `User` where UserId = ?";
+    $query = "SELECT * from `Roles` where RoleId = ?";
     $response = getConnection()->execute_query($query, [$id]);
 
     return $response->fetch_assoc();
 }
 
-function updateUserUserName($id, $username): mysqli_result|bool
+function updateRole($id, $role, $description): mysqli_result|bool
 {
-    $query = "UPDATE `User` set UserName = ? where UserId = ?";
-    return getConnection()->execute_query($query, [$username, $id]);
+    $query = "UPDATE `Roles` set Role = ?, RoleDescription = ? where RoleId = ?";
+    return getConnection()->execute_query($query, [$role, $description, $id]);
 }
 
-function updateUserPassword($id, $passwordHash): mysqli_result|bool
+function deleteRole($id): mysqli_result|bool
 {
-    $query = "UPDATE `User` set PasswordHash = ? where UserId = ?";
-    return getConnection()->execute_query($query, [$passwordHash, $id]);
-}
-
-function deleteUser($id): mysqli_result|bool
-{
-    $query = "DELETE from `User` where UserId = ?";
+    $query = "DELETE from `Roles` where RoleId = ?";
     return getConnection()->execute_query($query, [$id]);
 }
 
-function createUserItem($userId, $itemName, $itemUserName, $itemPassword): mysqli_result|bool
+function getUserRoles($userId): array
 {
-    $query = "INSERT into `Item` (UserId, ItemName, itemUserName, ItemPassword) values (?, ?, ?, ?)";
-    return getConnection()->execute_query($query, [$userId, $itemName, $itemUserName, $itemPassword]);
-}
-
-function getUserItemById($itemId): array|false|null
-{
-    $query = "SELECT * from `Item` where ItemId = ?";
-    $response = getConnection()->execute_query($query, [$itemId]);
-
-    return $response->fetch_assoc();
-}
-
-function getUserItemsByUser($userId): array
-{
-    $query = "SELECT * from `Item` where UserId = ?";
+    $query = "SELECT * FROM `UserRoles` WHERE UserId = ?";
     $response = getConnection()->execute_query($query, [$userId]);
 
     return $response->fetch_all(MYSQLI_ASSOC);
 }
 
-function updateUserItem($itemId, $itemName, $itemUserName, $itemPassword): mysqli_result|bool
+function addUserRole($userId, $roleId): mysqli_result|bool
 {
-    $query = "UPDATE `Item` set ItemName = ?, itemUserName = ?, itemPassword = ? where ItemId = ?";
-    return getConnection()->execute_query($query, [$itemId, $itemName, $itemUserName, $itemPassword]);
+    $query = "INSERT INTO `UserRoles` (UserId, RoleId) VALUES (?, ?)";
+    return getConnection()->execute_query($query, [$userId, $roleId]);
 }
 
-function deleteUserItem($itemId): mysqli_result|bool
+function removeUserRole($userId, $roleId): mysqli_result|bool
 {
-    $query = "DELETE from `Item` where ItemId = ?";
-    return getConnection()->execute_query($query, [$itemId]);
+    $query = "DELETE FROM `UserRoles` WHERE UserId = ? AND RoleId = ?";
+    return getConnection()->execute_query($query, [$userId, $roleId]);
+}
+
+function getAllRecipes(): array
+{
+    $query = 'SELECT * FROM `Recipe`';
+    $response = getConnection()->execute_query($query);
+
+    return $response->fetch_all(MYSQLI_ASSOC);
+}
+
+function createRecipe($title, $description, $prepTime, $cookTime, $totalTime, $servings, $authorId): mysqli_result|bool
+{
+    $query = "INSERT INTO `Recipe` (Title, Description, PrepTime, CookTime, TotalTime, Servings, AuthorID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    return getConnection()->execute_query($query, [$title, $description, $prepTime, $cookTime, $totalTime, $servings, $authorId]);
+}
+
+function getRecipeById($id): false|array|null
+{
+    $query = "SELECT * FROM `Recipe` WHERE RecipeID = ?";
+    $response = getConnection()->execute_query($query, [$id]);
+
+    return $response->fetch_assoc();
+}
+
+function updateRecipe($id, $title, $description, $prepTime, $cookTime, $totalTime, $servings): mysqli_result|bool
+{
+    $query = "UPDATE `Recipe` SET Title = ?, Description = ?, PrepTime = ?, CookTime = ?, TotalTime = ?, Servings = ? WHERE RecipeID = ?";
+    return getConnection()->execute_query($query, [$title, $description, $prepTime, $cookTime, $totalTime, $servings, $id]);
+}
+
+function deleteRecipe($id): mysqli_result|bool
+{
+    $query = "DELETE FROM `Recipe` WHERE RecipeID = ?";
+    return getConnection()->execute_query($query, [$id]);
+}
+
+function getAllIngredients(): array
+{
+    $query = 'SELECT * FROM `Ingredient`';
+    $response = getConnection()->execute_query($query);
+
+    return $response->fetch_all(MYSQLI_ASSOC);
+}
+
+function createIngredient($name, $unit): mysqli_result|bool
+{
+    $query = "INSERT INTO `Ingredient` (Name, Unit) VALUES (?, ?)";
+    return getConnection()->execute_query($query, [$name, $unit]);
+}
+
+function getIngredientById($id): false|array|null
+{
+    $query = "SELECT * FROM `Ingredient` WHERE IngredientID = ?";
+    $response = getConnection()->execute_query($query, [$id]);
+
+    return $response->fetch_assoc();
+}
+
+function updateIngredient($id, $name, $unit): mysqli_result|bool
+{
+    $query = "UPDATE `Ingredient` SET Name = ?, Unit = ? WHERE IngredientID = ?";
+    return getConnection()->execute_query($query, [$name, $unit, $id]);
+}
+
+function deleteIngredient($id): mysqli_result|bool
+{
+    $query = "DELETE FROM `Ingredient` WHERE IngredientID = ?";
+    return getConnection()->execute_query($query, [$id]);
+}
+
+function getRecipeIngredients($recipeId): array
+{
+    $query = "SELECT * FROM `RecipeIngredient` WHERE RecipeID = ?";
+    $response = getConnection()->execute_query($query, [$recipeId]);
+
+    return $response->fetch_all(MYSQLI_ASSOC);
+}
+
+function addRecipeIngredient($recipeId, $ingredientId, $quantity): mysqli_result|bool
+{
+    $query = "INSERT INTO `RecipeIngredient` (RecipeID, IngredientID, Quantity) VALUES (?, ?, ?)";
+    return getConnection()->execute_query($query, [$recipeId, $ingredientId, $quantity]);
+}
+
+function removeRecipeIngredient($recipeId, $ingredientId): mysqli_result|bool
+{
+    $query = "DELETE FROM `RecipeIngredient` WHERE RecipeID = ? AND IngredientID = ?";
+    return getConnection()->execute_query($query, [$recipeId, $ingredientId]);
+}
+
+function getAllCategories(): array
+{
+    $query = 'SELECT * FROM `Category`';
+    $response = getConnection()->execute_query($query);
+
+    return $response->fetch_all(MYSQLI_ASSOC);
+}
+
+function createCategory($name): mysqli_result|bool
+{
+    $query = "INSERT INTO `Category` (Name) VALUES (?)";
+    return getConnection()->execute_query($query, [$name]);
+}
+
+function getCategoryById($id): false|array|null
+{
+    $query = "SELECT * FROM `Category` WHERE CategoryID = ?";
+    $response = getConnection()->execute_query($query, [$id]);
+
+    return $response->fetch_assoc();
+}
+
+function updateCategory($id, $name): mysqli_result|bool
+{
+    $query = "UPDATE `Category` SET Name = ? WHERE CategoryID = ?";
+    return getConnection()->execute_query($query, [$name, $id]);
+}
+
+function deleteCategory($id): mysqli_result|bool
+{
+    $query = "DELETE FROM `Category` WHERE CategoryID = ?";
+    return getConnection()->execute_query($query, [$id]);
+}
+
+function getRecipeCategories($recipeId): array
+{
+    $query = "SELECT * FROM `RecipeCategory` WHERE RecipeID = ?";
+    $response = getConnection()->execute_query($query, [$recipeId]);
+
+    return $response->fetch_all(MYSQLI_ASSOC);
+}
+
+function addRecipeCategory($recipeId, $categoryId): mysqli_result|bool
+{
+    $query = "INSERT INTO `RecipeCategory` (RecipeID, CategoryID) VALUES (?, ?)";
+    return getConnection()->execute_query($query, [$recipeId, $categoryId]);
+}
+
+function removeRecipeCategory($recipeId, $categoryId): mysqli_result|bool
+{
+    $query = "DELETE FROM `RecipeCategory` WHERE RecipeID = ? AND CategoryID = ?";
+    return getConnection()->execute_query($query, [$recipeId, $categoryId]);
+}
+
+function getInstructionsByRecipeId($recipeId): array
+{
+    $query = "SELECT * FROM `Instructions` WHERE RecipeID = ?";
+    $response = getConnection()->execute_query($query, [$recipeId]);
+
+    return $response->fetch_all(MYSQLI_ASSOC);
+}
+
+function addInstruction($recipeId, $stepNumber, $description): mysqli_result|bool
+{
+    $query = "INSERT INTO `Instructions` (RecipeID, StepNumber, Description) VALUES (?, ?, ?)";
+    return getConnection()->execute_query($query, [$recipeId, $stepNumber, $description]);
+}
+
+function updateInstruction($instructionId, $stepNumber, $description): mysqli_result|bool
+{
+    $query = "UPDATE `Instructions` SET StepNumber = ?, Description = ? WHERE InstructionID = ?";
+    return getConnection()->execute_query($query, [$stepNumber, $description, $instructionId]);
+}
+
+function deleteInstruction($instructionId): mysqli_result|bool
+{
+    $query = "DELETE FROM `Instructions` WHERE InstructionID = ?";
+    return getConnection()->execute_query($query, [$instructionId]);
 }

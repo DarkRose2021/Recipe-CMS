@@ -1,10 +1,10 @@
 USE RecipeCMS;
 
 -- Insert sample data into Users table
-INSERT INTO Users (HighScore, Username, Password, Email) VALUES
-(100, 'john_doe', 'password123', 'john_doe@example.com'),
-(200, 'jane_smith', 'securepassword', 'jane_smith@example.com'),
-(150, 'chef_master', 'chefpassword', 'chef_master@example.com');
+INSERT INTO Users (Username, Password, Email) VALUES
+('john_doe', 'password123', 'john_doe@example.com'),
+('jane_smith', 'securepassword', 'jane_smith@example.com'),
+('chef_master', 'chefpassword', 'chef_master@example.com');
 
 -- Insert sample data into Roles table
 INSERT INTO Roles (Role, RoleDescription) VALUES
