@@ -13,6 +13,55 @@ function getConnection()
     return $dbConnection;
 }
 
+function getAllUsers(): array
+{
+    $query = 'SELECT * FROM Users';
+    $response = getConnection()->execute_query($query);
+
+    return $response->fetch_all(MYSQLI_ASSOC);
+
+}
+
+function createUser($username, $passwordHash): mysqli_result|bool
+{
+    $query = "INSERT into User (UserName, PasswordHash) values (?, ?)";
+    return getConnection()->execute_query($query, [$username, $passwordHash]);
+}
+
+function getUserByUsername($username): false|array|null
+{
+    $query = "SELECT * from User where UserName = ?";
+    $response = getConnection()->execute_query($query, [$username]);
+
+    return $response->fetch_assoc();
+}
+
+function getUserById($id): false|array|null
+{
+    $query = "SELECT * from User where UserId = ?";
+    $response = getConnection()->execute_query($query, [$id]);
+
+    return $response->fetch_assoc();
+}
+
+function updateUserUserName($id, $username): mysqli_result|bool
+{
+    $query = "UPDATE User set UserName = ? where UserId = ?";
+    return getConnection()->execute_query($query, [$username, $id]);
+}
+
+function updateUserPassword($id, $passwordHash): mysqli_result|bool
+{
+    $query = "UPDATE User set PasswordHash = ? where UserId = ?";
+    return getConnection()->execute_query($query, [$passwordHash, $id]);
+}
+
+function deleteUser($id): mysqli_result|bool
+{
+    $query = "DELETE from User where UserId = ?";
+    return getConnection()->execute_query($query, [$id]);
+}
+
 function getAllRoles(): array
 {
     $query = 'SELECT * FROM `Roles`';
