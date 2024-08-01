@@ -4,15 +4,15 @@ $env = parse_ini_file(".env");
 
 define("DB_USER", $env["DB_USER"]);
 define("DB_PSWD", $env["DB_PSWD"]);
-define("DB_HOST", $env["DB_HOST"]);
+define("DB_SERVER", $env["DB_SERVER"]);
 define("DB_NAME", $env["DB_NAME"]);
 
 function getConnection()
 {
-    $dbConnection = @mysqli_connect(DB_HOST, DB_USER, DB_PSWD, DB_NAME) or die("Could not connect to MySQL server.");
+    $dbConnection = @mysqli_connect(DB_SERVER, DB_USER, DB_PSWD, DB_NAME) or die("Could not connect to MySQL server.");
     return $dbConnection;
 }
-
+//Works
 function getAllUsers(): array
 {
     $query = 'SELECT * FROM Users';
@@ -115,7 +115,7 @@ function removeUserRole($userId, $roleId): mysqli_result|bool
     $query = "DELETE FROM `UserRoles` WHERE UserId = ? AND RoleId = ?";
     return getConnection()->execute_query($query, [$userId, $roleId]);
 }
-
+//Works
 function getAllRecipes(): array
 {
     $query = 'SELECT * FROM `Recipe`';
@@ -257,7 +257,7 @@ function removeRecipeCategory($recipeId, $categoryId): mysqli_result|bool
     $query = "DELETE FROM `RecipeCategory` WHERE RecipeID = ? AND CategoryID = ?";
     return getConnection()->execute_query($query, [$recipeId, $categoryId]);
 }
-
+//Works
 function getInstructionsByRecipeId($recipeId): array
 {
     $query = "SELECT * FROM `Instructions` WHERE RecipeID = ?";
@@ -282,4 +282,23 @@ function deleteInstruction($instructionId): mysqli_result|bool
 {
     $query = "DELETE FROM `Instructions` WHERE InstructionID = ?";
     return getConnection()->execute_query($query, [$instructionId]);
+}
+//Works
+function getCategoriesByRecipeId($recipeId): array
+{
+    $query = "SELECT c.Name FROM `Category` c 
+              INNER JOIN `RecipeCategory` rc ON c.CategoryID = rc.CategoryID 
+              WHERE rc.RecipeID = ?";
+    $response = getConnection()->execute_query($query, [$recipeId]);
+    return $response->fetch_all(MYSQLI_ASSOC);
+}
+
+//Works
+function getIngredientsByRecipeId($recipeId): array
+{
+    $query = "SELECT i.Name, ri.Quantity, i.Unit FROM `Ingredient` i 
+              INNER JOIN `RecipeIngredient` ri ON i.IngredientID = ri.IngredientID 
+              WHERE ri.RecipeID = ?";
+    $response = getConnection()->execute_query($query, [$recipeId]);
+    return $response->fetch_all(MYSQLI_ASSOC);
 }

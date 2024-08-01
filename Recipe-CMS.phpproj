@@ -6,4 +6,8 @@
     <EnvName>PHPDev</EnvName>
     <RuntimeVersion>8.3</RuntimeVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="NewFolder1\**" />
+    <Content Remove="NewFolder\**" />
+  </ItemGroup>
 </Project>
