@@ -9,14 +9,20 @@
 </head>
 
 <body>
-  <div class="navbar">
-    <a href="index.php?page=home">Home</a>
-    <a href="index.php?page=about">About</a>
-    <a href="index.php?page=contact">Contact</a>
-    <a href="index.php?page=recipe">Recipes</a>
-    <a href="index.php?page=adminLogin">Admin</a>
-    <a href="index.php?page=adminPages/users">Users</a>
-  </div>
+  
+<nav class="navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.php?page=home">Recipe CMS</a>
+      <div class="navbar-links">
+        <a href="index.php?page=home">Home</a>
+        <a href="index.php?page=about">About</a>
+        <a href="index.php?page=contact">Contact</a>
+        <a href="index.php?page=recipe">Recipes</a>
+        <a href="index.php?page=adminLogin">Admin</a>
+        <a href="index.php?page=adminPages/users">Users</a>
+      </div>
+    </div>
+  </nav>
 
   <main>
     <?php
