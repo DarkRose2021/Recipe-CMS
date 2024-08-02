@@ -10,6 +10,9 @@ $white = '#F3E9EB';
 body{
     background-color: <?php echo $darkColor; ?>;
     color: <?php echo $white; ?>;
+    font-family: "Rancho", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 
 h1{
