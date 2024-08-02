@@ -1,5 +1,4 @@
 <?php
-// Include database connection
 include 'dbconnection.php';
 
 session_start();
@@ -14,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['user_id'] = $user['UserId'];
-        header("Location: index.php?page=adminDashboard"); 
+        header("Location: index.php?page=adminPages/adminDashboard"); 
         exit();
     } else {
         echo "Invalid email or password.";
