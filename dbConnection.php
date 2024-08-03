@@ -224,6 +224,18 @@ function createCategory($name): mysqli_result|bool
     return getConnection()->execute_query($query, [$name]);
 }
 
+function getCategoryByName($name): false|int
+{
+    $query = "SELECT CategoryID FROM `Category` WHERE Name = ?";
+    $response = getConnection()->execute_query($query, [$name]);
+
+    if ($response && $row = $response->fetch_assoc()) {
+        return $row['CategoryID'];
+    }
+    return false;
+}
+
+
 function getCategoryById($id): false|array|null
 {
     $query = "SELECT * FROM `Category` WHERE CategoryID = ?";
