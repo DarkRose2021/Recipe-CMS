@@ -80,7 +80,7 @@ INSERT INTO Instructions (RecipeID, StepNumber, Description) VALUES
 (1, 3, 'Add ground beef to the pan and cook until browned.'),
 (1, 4, 'Add tomato sauce, salt, and pepper. Simmer for 30 minutes.'),
 (1, 5, 'Serve the sauce over the cooked spaghetti.'),
-(2, 1, 'Preheat the oven to 350°F (175°C).'),
+(2, 1, 'Preheat the oven to 350ï¿½F (175ï¿½C).'),
 (2, 2, 'In a bowl, mix flour, sugar, and cocoa powder.'),
 (2, 3, 'Add eggs and melted butter, and mix until smooth.'),
 (2, 4, 'Pour the batter into a greased baking pan.'),

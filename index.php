@@ -9,6 +9,9 @@
 </head>
 
 <body>
+<?php
+session_start();
+?>
   
 <nav class="navbar">
     <div class="container">
@@ -18,8 +21,13 @@
         <a href="index.php?page=about">About</a>
         <a href="index.php?page=contact">Contact</a>
         <a href="index.php?page=recipe">Recipes</a>
-        <a href="index.php?page=adminLogin">Admin</a>
+        <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']): ?>
+        <a href="index.php?page=adminPages/adminDashboard">Admin Dashboard</a>
         <a href="index.php?page=adminPages/users">Users</a>
+        <a href="index.php?page=logout">Logout</a>
+      <?php else: ?>
+        <a href="index.php?page=adminLogin">Admin Login</a>
+      <?php endif; ?>
       </div>
     </div>
   </nav>

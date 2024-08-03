@@ -1,5 +1,5 @@
 <?php
-include 'dbconnection.php';
+include 'dbConnection.php';
 
 session_start();
 
@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = getUserByEmail($email);
 
     if ($user && $user['Password'] === $password) {
-
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['user_id'] = $user['UserId'];
         header("Location: index.php?page=adminPages/adminDashboard"); 
@@ -21,13 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-
 <form method="POST" action="index.php?page=adminLogin">
-        <label for="email">Email</label>
-        <input type="text" id="email" name="email" required />
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email" required />
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required />
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required />
 
-        <button type="submit">Login</button>
-    </form>
+    <button type="submit">Login</button>
+</form>
