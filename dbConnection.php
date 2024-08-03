@@ -96,6 +96,24 @@ function getRecipeIngredients($recipeId): array
     return $response->fetch_all(MYSQLI_ASSOC);
 }
 
+
+function getFullRecipeIngredients($recipeId): array
+{
+    $query = "SELECT * FROM RecipeIngredients WHERE RecipeID = ?";
+    $params = [$recipeId];
+    $response = getConnection()->execute_query($query, $params);
+
+    return $response->fetch_all(MYSQLI_ASSOC);
+}
+
+function getFullInstructionsByRecipeId($recipeId): array
+{
+    $query = "SELECT * FROM Instructions WHERE RecipeID = ?";
+    $params = [$recipeId];
+    $response = getConnection()->execute_query($query, $params);
+    return $response->fetch_all(MYSQLI_ASSOC);
+}
+
 function getInstructionsByRecipeId($recipeId): array
 {
     $query = "SELECT StepNumber, Description FROM Instructions WHERE RecipeID = ?";
@@ -126,10 +144,8 @@ function addInstruction($recipeId, $stepNumber, $description): mysqli_result|boo
 
 function updateInstruction($instructionId, $stepNumber, $description): mysqli_result|bool
 {
-    $query = "UPDATE Instructions SET StepNumber = ?, Description = ? WHERE InstructionID = ?";
-    $stmt = getConnection()->prepare($query);
-    $stmt->bind_param('isi', $stepNumber, $description, $instructionId);
-    return $stmt->execute();
+  $query = "UPDATE `Instructions` SET stepNumber = ?, description = ? WHERE instructionId = ?";
+  return getConnection()->execute_query($query, [$stepNumber, $description, $instructionId]);
 }
 
 function deleteInstruction($instructionId): mysqli_result|bool
@@ -140,3 +156,8 @@ function deleteInstruction($instructionId): mysqli_result|bool
     return $stmt->execute();
 }
 
+function updateRecipeIngredient($id, $name, $unit, $quantity): mysqli_result|bool
+{
+  $query = "UPDATE `RecipeIngredients` SET name = ?, unit = ?, quantity = ? WHERE `RecipeIngredientID` = ?";
+  return getConnection()->execute_query($query, [$name, $unit, $quantity, $id]);
+}
