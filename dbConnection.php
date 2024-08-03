@@ -96,7 +96,6 @@ function getRecipeIngredients($recipeId): array
     return $response->fetch_all(MYSQLI_ASSOC);
 }
 
-
 function getFullRecipeIngredients($recipeId): array
 {
     $query = "SELECT * FROM RecipeIngredients WHERE RecipeID = ?";
@@ -128,12 +127,10 @@ function addRecipeIngredient($recipeId, $name, $unit, $quantity): mysqli_result|
     return getConnection()->execute_query($query, [$recipeId, $name, $unit, $quantity]);
 }
 
-function removeRecipeIngredient($recipeId, $name): mysqli_result|bool
+function removeRecipeIngredient($id): mysqli_result|bool
 {
-    $query = "DELETE FROM RecipeIngredients WHERE RecipeID = ? AND Name = ?";
-    $stmt = getConnection()->prepare($query);
-    $stmt->bind_param('is', $recipeId, $name);
-    return $stmt->execute();
+    $query = "DELETE FROM RecipeIngredients WHERE RecipeID = ?";
+    return getConnection()->execute_query($query, [$id]);
 }
 
 function addInstruction($recipeId, $stepNumber, $description): mysqli_result|bool
@@ -148,12 +145,10 @@ function updateInstruction($instructionId, $stepNumber, $description): mysqli_re
   return getConnection()->execute_query($query, [$stepNumber, $description, $instructionId]);
 }
 
-function deleteInstruction($instructionId): mysqli_result|bool
+function deleteInstruction($id): mysqli_result|bool
 {
-    $query = "DELETE FROM Instructions WHERE InstructionID = ?";
-    $stmt = getConnection()->prepare($query);
-    $stmt->bind_param('i', $instructionId);
-    return $stmt->execute();
+    $query = "DELETE FROM Instructions WHERE RecipeID = ?";
+    return getConnection()->execute_query($query, [$id]);
 }
 
 function updateRecipeIngredient($id, $name, $unit, $quantity): mysqli_result|bool

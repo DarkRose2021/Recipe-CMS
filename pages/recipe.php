@@ -37,10 +37,11 @@ $recipes = getAllRecipes();
                 <li><?php echo htmlspecialchars($instruction['Description']); ?></li>
             <?php endforeach; ?>
         </ol>
-
+        <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']): ?>
         <a href="index.php?page=adminPages/editRecipe&id=<?php echo htmlspecialchars($recipe['RecipeID']); ?>"><button>Edit Recipe</button></a>
         
-        <a href="deleteRecipe.php?id=<?php echo htmlspecialchars($recipe['RecipeID']); ?>"><button>Delete Recipe</button></a>
+        <a href="index.php?page=adminPages/deleteRecipe&id=<?php echo htmlspecialchars($recipe['RecipeID']); ?>" ?><button>Delete Recipe</button></a>
+        <?php endif; ?>
         </div>
     <?php endforeach; ?>
     </div>

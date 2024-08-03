@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
+  header("Location: index.php?page=home");
+  exit();
+}
+
 require 'dbConnection.php';
 
 $recipeId = isset($_GET['id']) ? intval($_GET['id']) : null;
@@ -9,7 +16,6 @@ if (!$recipeId) {
 
 $recipe = getRecipeById($recipeId);
 $ingredients = getFullRecipeIngredients($recipeId);
-error_log(print_r($ingredients));
 $instructions = getFullInstructionsByRecipeId($recipeId);
 
 if (!$recipe) {

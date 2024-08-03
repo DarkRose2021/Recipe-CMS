@@ -1,10 +1,9 @@
 <?php
 session_start();
-require_once 'dbConnection.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
+if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
+  header("Location: index.php?page=home");
+  exit();
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
