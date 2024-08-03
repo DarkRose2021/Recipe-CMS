@@ -212,69 +212,29 @@ function removeRecipeIngredient($recipeId, $ingredientId): mysqli_result|bool
 
 function getAllCategories(): array
 {
-    $query = 'SELECT * FROM `Category`';
+    $query = 'SELECT DISTINCT Category FROM `Recipe`';
     $response = getConnection()->execute_query($query);
 
     return $response->fetch_all(MYSQLI_ASSOC);
 }
 
-function createCategory($name): mysqli_result|bool
+function getCategoryByName($name): array|false
 {
-    $query = "INSERT INTO `Category` (Name) VALUES (?)";
-    return getConnection()->execute_query($query, [$name]);
-}
-
-function getCategoryByName($name): false|int
-{
-    $query = "SELECT CategoryID FROM `Category` WHERE Name = ?";
+    $query = "SELECT RecipeID FROM `Recipe` WHERE Category = ?";
     $response = getConnection()->execute_query($query, [$name]);
 
-    if ($response && $row = $response->fetch_assoc()) {
-        return $row['CategoryID'];
+    if ($response) {
+        return $response->fetch_all(MYSQLI_ASSOC);
     }
     return false;
 }
 
-
-function getCategoryById($id): false|array|null
+function updateCategory($oldName, $newName): mysqli_result|bool
 {
-    $query = "SELECT * FROM `Category` WHERE CategoryID = ?";
-    $response = getConnection()->execute_query($query, [$id]);
-
-    return $response->fetch_assoc();
+    $query = "UPDATE `Recipe` SET Category = ? WHERE Category = ?";
+    return getConnection()->execute_query($query, [$newName, $oldName]);
 }
 
-function updateCategory($id, $name): mysqli_result|bool
-{
-    $query = "UPDATE `Category` SET Name = ? WHERE CategoryID = ?";
-    return getConnection()->execute_query($query, [$name, $id]);
-}
-
-function deleteCategory($id): mysqli_result|bool
-{
-    $query = "DELETE FROM `Category` WHERE CategoryID = ?";
-    return getConnection()->execute_query($query, [$id]);
-}
-
-function getRecipeCategories($recipeId): array
-{
-    $query = "SELECT * FROM `RecipeCategory` WHERE RecipeID = ?";
-    $response = getConnection()->execute_query($query, [$recipeId]);
-
-    return $response->fetch_all(MYSQLI_ASSOC);
-}
-
-function addRecipeCategory($recipeId, $categoryId): mysqli_result|bool
-{
-    $query = "INSERT INTO `RecipeCategory` (RecipeID, CategoryID) VALUES (?, ?)";
-    return getConnection()->execute_query($query, [$recipeId, $categoryId]);
-}
-
-function removeRecipeCategory($recipeId, $categoryId): mysqli_result|bool
-{
-    $query = "DELETE FROM `RecipeCategory` WHERE RecipeID = ? AND CategoryID = ?";
-    return getConnection()->execute_query($query, [$recipeId, $categoryId]);
-}
 //Works
 function getInstructionsByRecipeId($recipeId): array
 {
@@ -302,14 +262,6 @@ function deleteInstruction($instructionId): mysqli_result|bool
     return getConnection()->execute_query($query, [$instructionId]);
 }
 //Works
-function getCategoriesByRecipeId($recipeId): array
-{
-    $query = "SELECT c.Name FROM `Category` c 
-              INNER JOIN `RecipeCategory` rc ON c.CategoryID = rc.CategoryID 
-              WHERE rc.RecipeID = ?";
-    $response = getConnection()->execute_query($query, [$recipeId]);
-    return $response->fetch_all(MYSQLI_ASSOC);
-}
 
 //Works
 function getIngredientsByRecipeId($recipeId): array

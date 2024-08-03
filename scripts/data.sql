@@ -1,56 +1,46 @@
 USE RecipeCMS;
 
-INSERT INTO Users (Username, Password, Email) VALUES
-('admin', 'adminpass', 'admin@example.com'),
-('user1', 'user1pass', 'user1@example.com'),
-('user2', 'user2pass', 'user2@example.com');
+-- Insert sample data into Users
+INSERT INTO Users (Password, Email, isAdmin) VALUES
+('password1', 'user1@example.com', TRUE),
+('password2', 'user2@example.com', FALSE),
+('password3', 'user3@example.com', FALSE);
 
-INSERT INTO Roles (Role, RoleDescription) VALUES
-('Admin', 'Administrator with full access'),
-('Editor', 'Editor with permissions to manage content'),
-('Viewer', 'Viewer with read-only access');
+-- Insert sample data into Recipe
+INSERT INTO Recipe (Title, Description, Category, PrepTime, CookTime, TotalTime, Servings, AuthorID) VALUES
+('Spaghetti Bolognese', 'A classic Italian pasta dish.', 'Italian', 15, 60, 75, 4, 1),
+('Chicken Curry', 'A spicy and flavorful dish.', 'Indian', 20, 40, 60, 4, 2),
+('Chocolate Cake', 'A rich and moist chocolate cake.', 'Dessert', 30, 45, 75, 8, 3);
 
-INSERT INTO UserRoles (UserId, RoleId) VALUES
-(1, 1), -- admin is Admin
-(2, 2), -- user1 is Editor
-(3, 3); -- user2 is Viewer
-
+-- Insert sample data into Ingredient
 INSERT INTO Ingredient (Name, Unit) VALUES
-('Flour', 'grams'),
-('Sugar', 'grams'),
-('Eggs', 'unit'),
-('Milk', 'liters');
+('Spaghetti', 'grams'),
+('Ground Beef', 'grams'),
+('Tomato Sauce', 'cups'),
+('Chicken', 'pieces'),
+('Curry Powder', 'tablespoons'),
+('Chocolate', 'grams'),
+('Flour', 'cups'),
+('Sugar', 'cups');
 
-INSERT INTO Category (Name) VALUES
-('Dessert'),
-('Breakfast'),
-('Lunch'),
-('Dinner');
-
-INSERT INTO Recipe (Title, Description, PrepTime, CookTime, TotalTime, Servings, AuthorID) VALUES
-('Pancakes', 'Fluffy pancakes for breakfast.', 10, 15, 25, 4, 2),
-('Chocolate Cake', 'Delicious chocolate cake.', 20, 30, 50, 8, 1);
-
+-- Insert sample data into RecipeIngredient
 INSERT INTO RecipeIngredient (RecipeID, IngredientID, Quantity) VALUES
-(1, 1, 200.00), 
-(1, 2, 50.00),  
-(1, 3, 2.00),   
-(1, 4, 0.50),   
-(2, 1, 300.00), 
-(2, 2, 200.00), 
-(2, 3, 3.00),   
-(2, 4, 0.75);   
+(1, 1, 500.00),  -- Spaghetti Bolognese
+(1, 2, 250.00),
+(1, 3, 2.00),
+(2, 4, 4.00),   -- Chicken Curry
+(2, 5, 2.00),
+(3, 6, 200.00),  -- Chocolate Cake
+(3, 7, 2.00),
+(3, 8, 1.50);
 
-INSERT INTO RecipeCategory (RecipeID, CategoryID) VALUES
-(1, 2),
-(2, 1);
-
+-- Insert sample data into Instructions
 INSERT INTO Instructions (RecipeID, StepNumber, Description) VALUES
-(1, 1, 'Mix dry ingredients in a bowl.'),
-(1, 2, 'Add wet ingredients and mix until smooth.'),
-(1, 3, 'Cook on a hot griddle until bubbles form on the surface.'),
-(1, 4, 'Flip and cook until golden brown.'),
-(2, 1, 'Preheat oven to 350°F (175°C).'),
-(2, 2, 'Mix dry ingredients together.'),
-(2, 3, 'Add wet ingredients and mix until combined.'),
-(2, 4, 'Pour batter into a greased pan and bake for 30 minutes.');
+(1, 1, 'Boil the spaghetti.'),
+(1, 2, 'Cook the ground beef.'),
+(1, 3, 'Add the tomato sauce to the beef and simmer.'),
+(2, 1, 'Cook the chicken.'),
+(2, 2, 'Add curry powder and simmer.'),
+(3, 1, 'Mix the flour and sugar.'),
+(3, 2, 'Add the melted chocolate.'),
+(3, 3, 'Bake in the oven.');

@@ -2,47 +2,26 @@ DROP DATABASE IF EXISTS RecipeCMS;
 CREATE DATABASE IF NOT EXISTS RecipeCMS;
 USE RecipeCMS;
 
-DROP TABLE IF EXISTS UserRoles;
 DROP TABLE IF EXISTS Users;
-DROP TABLE IF EXISTS Roles;
 DROP TABLE IF EXISTS RecipeIngredient;
 DROP TABLE IF EXISTS Ingredient;
-DROP TABLE IF EXISTS RecipeCategory;
 DROP TABLE IF EXISTS Recipe;
-DROP TABLE IF EXISTS Category;
 DROP TABLE IF EXISTS Instructions;
 
 CREATE TABLE IF NOT EXISTS Users (
     UserId INT NOT NULL AUTO_INCREMENT,
-    Username VARCHAR(100) NOT NULL,
     Password VARCHAR(100) NOT NULL,
     Email VARCHAR(100) NOT NULL,
+    isAdmin BOOLEAN NOT NULL,
     PRIMARY KEY (UserId),
-    CONSTRAINT Users_UniqueEmail UNIQUE (Email),
-    CONSTRAINT Users_UniqueUsername UNIQUE (Username)
-);
-
-CREATE TABLE IF NOT EXISTS Roles (
-    RoleId INT NOT NULL AUTO_INCREMENT,
-    Role VARCHAR(100) NOT NULL,
-    RoleDescription TEXT NOT NULL,
-    PRIMARY KEY (RoleId),
-    CONSTRAINT Roles_UniqueRole UNIQUE (Role)
-);
-
-CREATE TABLE IF NOT EXISTS UserRoles (
-    UserRoleId INT NOT NULL AUTO_INCREMENT,
-    UserId INT,
-    RoleId INT,
-    PRIMARY KEY (UserRoleId),
-    FOREIGN KEY (UserId) REFERENCES Users(UserId) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (RoleId) REFERENCES Roles(RoleId) ON DELETE CASCADE ON UPDATE CASCADE
-);
+    CONSTRAINT Users_UniqueEmail UNIQUE (Email)
+    );
 
 CREATE TABLE IF NOT EXISTS Recipe (
     RecipeID INT NOT NULL AUTO_INCREMENT,
     Title VARCHAR(255) NOT NULL,
     Description TEXT,
+    Category VARCHAR(255) NOT NULL,
     PrepTime INT, -- in minutes
     CookTime INT, -- in minutes
     TotalTime INT, -- in minutes
@@ -50,7 +29,7 @@ CREATE TABLE IF NOT EXISTS Recipe (
     DateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
     AuthorID INT,
     PRIMARY KEY (RecipeID),
-    FOREIGN KEY (AuthorID) REFERENCES Users(UserId) ON DELETE SET NULL ON UPDATE CASCADE
+    FOREIGN KEY (AuthorID) REFERENCES Users(UserId)
 );
 
 CREATE TABLE IF NOT EXISTS Ingredient (
@@ -66,23 +45,8 @@ CREATE TABLE IF NOT EXISTS RecipeIngredient (
     IngredientID INT,
     Quantity DECIMAL(10, 2),
     PRIMARY KEY (RecipeIngredientID),
-    FOREIGN KEY (RecipeID) REFERENCES Recipe(RecipeID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (IngredientID) REFERENCES Ingredient(IngredientID) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS Category (
-    CategoryID INT NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(255) NOT NULL,
-    PRIMARY KEY (CategoryID)
-);
-
-CREATE TABLE IF NOT EXISTS RecipeCategory (
-    RecipeCategoryID INT NOT NULL AUTO_INCREMENT,
-    RecipeID INT,
-    CategoryID INT,
-    PRIMARY KEY (RecipeCategoryID),
-    FOREIGN KEY (RecipeID) REFERENCES Recipe(RecipeID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (RecipeID) REFERENCES Recipe(RecipeID),
+    FOREIGN KEY (IngredientID) REFERENCES Ingredient(IngredientID)
 );
 
 CREATE TABLE IF NOT EXISTS Instructions (
@@ -91,5 +55,5 @@ CREATE TABLE IF NOT EXISTS Instructions (
     StepNumber INT,
     Description TEXT,
     PRIMARY KEY (InstructionID),
-    FOREIGN KEY (RecipeID) REFERENCES Recipe(RecipeID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (RecipeID) REFERENCES Recipe(RecipeID) 
 );

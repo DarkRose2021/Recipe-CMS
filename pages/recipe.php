@@ -1,11 +1,6 @@
 <?php
-require_once 'dbconnection.php';
+require_once 'dbConnection.php';
 $recipes = getAllRecipes();
-
-function getCategories($recipeId)
-{
-    return getCategoriesByRecipeId($recipeId);
-}
 
 function getIngredients($recipeId)
 {
@@ -22,7 +17,6 @@ function getInstructions($recipeId)
 <?php if (count($recipes) > 0): ?>
         <?php foreach ($recipes as $recipe): ?>
             <?php
-            $categories = getCategories($recipe['RecipeID']);
             $ingredients = getIngredients($recipe['RecipeID']);
             $instructions = getInstructions($recipe['RecipeID']);
             ?>
@@ -35,9 +29,7 @@ function getInstructions($recipeId)
 
                 <h3>Categories</h3>
                 <ul>
-                    <?php foreach ($categories as $category): ?>
-                        <li><?php echo htmlspecialchars($category['Name']); ?></li>
-                    <?php endforeach; ?>
+
                 </ul>
 
                 <h3>Ingredients</h3>
