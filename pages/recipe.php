@@ -1,51 +1,47 @@
 <?php
 require_once 'dbConnection.php';
+
 $recipes = getAllRecipes();
+?>
 
-function getIngredients($recipeId)
-{
-    return getIngredientsByRecipeId($recipeId);
-}
+    <h1>All Recipes</h1>
 
-function getInstructions($recipeId)
-{
-    return getInstructionsByRecipeId($recipeId);
-} ?>
-
-<h1>All Recipes</h1>
-
-<?php if (count($recipes) > 0): ?>
+    <?php if (count($recipes) > 0): ?>
+      <div class="allRecipes">
         <?php foreach ($recipes as $recipe): ?>
             <?php
-            $ingredients = getIngredients($recipe['RecipeID']);
-            $instructions = getInstructions($recipe['RecipeID']);
+            $ingredients = getRecipeIngredients($recipe['RecipeID']);
+            $instructions = getInstructionsByRecipeId($recipe['RecipeID']);
             ?>
-                <h2><?php echo htmlspecialchars($recipe['Title']); ?></h2>
-                <p><?php echo htmlspecialchars($recipe['Description']); ?></p>
-                <p>Preparation Time: <?php echo htmlspecialchars($recipe['PrepTime']); ?> minutes</p>
-                <p>Cooking Time: <?php echo htmlspecialchars($recipe['CookTime']); ?> minutes</p>
-                <p>Total Time: <?php echo htmlspecialchars($recipe['TotalTime']); ?> minutes</p>
-                <p>Servings: <?php echo htmlspecialchars($recipe['Servings']); ?></p>
+            <div class="recipeCard">
+            <h2><?php echo htmlspecialchars($recipe['Title']); ?></h2>
+            <p><?php echo htmlspecialchars($recipe['Description']); ?></p>
+            <p>Preparation Time: <?php echo htmlspecialchars($recipe['PrepTime']); ?> minutes</p>
+            <p>Cooking Time: <?php echo htmlspecialchars($recipe['CookTime']); ?> minutes</p>
+            <p>Total Time: <?php echo htmlspecialchars($recipe['TotalTime']); ?> minutes</p>
+            <p>Servings: <?php echo htmlspecialchars($recipe['Servings']); ?></p>
 
-                <h3>Categories</h3>
-                <ul>
+            <h3>Category</h3>
+            <p><?php echo htmlspecialchars($recipe['Category']); ?></p>
 
-                </ul>
+            <h3>Ingredients</h3>
+            <ul>
+                <?php foreach ($ingredients as $ingredient): ?>
+                    <li><?php echo htmlspecialchars($ingredient['Name']) . ': ' . htmlspecialchars($ingredient['Quantity']) . ' ' . htmlspecialchars($ingredient['Unit']); ?></li>
+                <?php endforeach; ?>
+            </ul>
 
-                <h3>Ingredients</h3>
-                <ul>
-                    <?php foreach ($ingredients as $ingredient): ?>
-                        <li><?php echo htmlspecialchars($ingredient['Name']) . ': ' . htmlspecialchars($ingredient['Quantity']) . ' ' . htmlspecialchars($ingredient['Unit']); ?></li>
-                    <?php endforeach; ?>
-                </ul>
-
-                <h3>Directions</h3>
-                <ol>
-                    <?php foreach ($instructions as $instruction): ?>
-                        <li><?php echo htmlspecialchars($instruction['Description']); ?></li>
-                    <?php endforeach; ?>
-                </ol>
+            <h3>Directions</h3>
+            <ol>
+                <?php foreach ($instructions as $instruction): ?>
+                    <li><?php echo htmlspecialchars($instruction['Description']); ?></li>
+                <?php endforeach; ?>
+            </ol>
+            <a href="index.php?page=adminPages/editRecipe&id="><button>Edit Recipe</button></a>
+            <a href=""><button>Delete Recipe</button></a>
+            </div>
         <?php endforeach; ?>
-<?php else: ?>
-    <p>No recipes found.</p>
-<?php endif; ?>
+        </div>
+    <?php else: ?>
+        <p>No recipes found.</p>
+    <?php endif; ?>

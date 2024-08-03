@@ -12,21 +12,20 @@ $users = getAllUsers();
 
 <h1>Users</h1>
 
-<!--testing the connection-->
+<!-- Testing the connection -->
 <?php if (!empty($users)): ?>
-<table>
-    <tr>
-        <th>Username</th>
-        <th>Email</th>
-    </tr>
-    <?php foreach ($users as $user): ?>
+    <table border="1">
         <tr>
-            <td><?php echo htmlspecialchars($user['Username']); ?></td>
-            <td><?php echo htmlspecialchars($user['Email']); ?></td>
+            <th>Email</th>
+            <th>Admin Status</th>
         </tr>
-    <?php endforeach; ?>
-</table>
+        <?php foreach ($users as $user): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($user['Email']); ?></td>
+                <td><?php echo htmlspecialchars($user['isAdmin'] ? 'Yes' : 'No'); ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
 <?php else: ?>
     <p>No users found.</p>
 <?php endif; ?>
-

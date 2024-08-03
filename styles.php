@@ -75,3 +75,20 @@ footer {
   width: 100%;
   text-align: center;
 }
+
+.recipeCard{
+  background-color: <?php echo $white ?>;
+  color: <?php echo $darkColor ?>;
+  width: 500px;
+  text-align: center;
+  border-radius: 10px;
+  padding: .5%;
+  margin: 1%;
+}
+
+.allRecipes{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}

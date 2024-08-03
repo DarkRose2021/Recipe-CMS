@@ -3,47 +3,8 @@ session_start();
 require_once 'dbConnection.php';
 
 if (!isset($_SESSION['user_id'])) {
-    // Redirect to login page if the user is not logged in
     header("Location: login.php");
     exit;
-}
-
-function execute_query($query, $params = []) {
-    $conn = getConnection();
-    $stmt = $conn->prepare($query);
-    if (!$stmt) {
-        die('Prepare failed: ' . $conn->error);
-    }
-    if ($params) {
-        $types = str_repeat('s', count($params)); // Assume all params are strings
-        $stmt->bind_param($types, ...$params);
-    }
-    $stmt->execute();
-    return $stmt;
-}
-
-function createRecipe($title, $description, $category, $prepTime, $cookTime, $totalTime, $servings, $authorId) {
-    $query = "INSERT INTO Recipe (Title, Description, Category, PrepTime, CookTime, TotalTime, Servings, AuthorID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = execute_query($query, [$title, $description, $category, $prepTime, $cookTime, $totalTime, $servings, $authorId]);
-    return $stmt->insert_id;
-}
-
-function createIngredient($name, $unit) {
-    $query = "INSERT INTO Ingredient (Name, Unit) VALUES (?, ?)";
-    $stmt = execute_query($query, [$name, $unit]);
-    return $stmt->insert_id;
-}
-
-function addRecipeIngredient($recipeId, $ingredientId, $quantity) {
-    $query = "INSERT INTO RecipeIngredient (RecipeID, IngredientID, Quantity) VALUES (?, ?, ?)";
-    $stmt = execute_query($query, [$recipeId, $ingredientId, $quantity]);
-    return $stmt->affected_rows > 0;
-}
-
-function addInstruction($recipeId, $stepNumber, $description) {
-    $query = "INSERT INTO Instructions (RecipeID, StepNumber, Description) VALUES (?, ?, ?)";
-    $stmt = execute_query($query, [$recipeId, $stepNumber, $description]);
-    return $stmt->affected_rows > 0;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -56,31 +17,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $servings = $_POST['servings'];
     $authorId = $_SESSION['user_id'];
 
-    // Create the recipe
     $recipeId = createRecipe($title, $description, $category, $prepTime, $cookTime, $totalTime, $servings, $authorId);
 
     if ($recipeId) {
-        // Add ingredients
         foreach ($_POST['ingredient_name'] as $index => $ingredientName) {
             $quantity = $_POST['ingredient_quantity'][$index];
             $unit = $_POST['ingredient_unit'][$index];
 
-            $ingredientId = createIngredient($ingredientName, $unit);
-            if ($ingredientId === false) {
-                echo "Failed to create ingredient: $ingredientName";
-                continue;
-            }
-
-            $result = addRecipeIngredient($recipeId, $ingredientId, $quantity);
+            $result = addRecipeIngredient($recipeId['LAST_INSERT_ID()'], $ingredientName, $unit, $quantity);
             if (!$result) {
-                echo "Failed to add ingredient to recipe: $ingredientName";
+                echo "Failed to add ingredient: $ingredientName";
             }
         }
 
-        // Add instructions
         foreach ($_POST['instruction_step'] as $index => $stepNumber) {
             $instructionDescription = $_POST['instruction_description'][$index];
-            $result = addInstruction($recipeId, $stepNumber, $instructionDescription);
+            $result = addInstruction($recipeId['LAST_INSERT_ID()'], $stepNumber, $instructionDescription);
             if (!$result) {
                 echo "Failed to add instruction step $stepNumber";
             }

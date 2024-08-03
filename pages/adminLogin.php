@@ -9,11 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $user = getUserByEmail($email);
 
-    if ($user && $user['Password'] === $password) {
+    if ($user && $user['Password'] === $password && $user['isAdmin']) {
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['user_id'] = $user['UserId'];
         header("Location: index.php?page=adminPages/adminDashboard"); 
         exit();
+    }
+    else if(!$user['isAdmin']){
+      header('Location: index.php?page=home');
     } else {
         echo "Invalid email or password.";
     }
