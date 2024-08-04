@@ -11,5 +11,5 @@ if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
 <ul>
   <li><a href="index.php?page=adminPages/adminAddRecipe">Add recipe</a></li>
   <li><a href="index.php?page=adminPages/users">Users</a></li>
-  <li><a href="index.php?page=adminPages/change_theme">Change Theme</a></li>
+  <li><a href="index.php?page=adminPages/ChangeTheme">Change Theme</a></li>
 </ul>

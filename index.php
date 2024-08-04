@@ -11,6 +11,9 @@
 <body>
 <?php
 session_start();
+if(!isset($_SESSION['theme'])){
+  $_SESSION['theme'] = 'default';
+}
 ?>
   
 <nav class="navbar">
