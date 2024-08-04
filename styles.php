@@ -14,19 +14,25 @@ $themes = [
         'error'=> 'red',
     ],
     'halloween' => [
-        'darkColor' => '#FFFFFF',
-        'btn' => '#9B59B6',
-        'main' => '#3498DB',
-        'lightBlue' => '#A3E4D7',
-        'white' => '#2C3E50',
+        'bg' => '#363039 ',
+        'btn' => '#D3A136',
+        'btnHover' => '#FFC341',
+        'main' => '#FB6F2D',
+        'lightBlue' => '#89E031',
+        'white' => '#F3E9EB',
+        'nav'=> '#872FE0',
+        'navHover' => '#5F308D',
         'error'=> 'red',
     ],
-    'other(name later)' => [
-        'darkColor' => '#FFC300',
-        'btn' => '#C70039',
-        'main' => '#FF5733',
-        'lightBlue' => '#DAF7A6',
-        'white' => '#581845',
+    'bloomingOasis' => [
+        'bg' => '#FFD3BA',
+        'btn' => '#805D93',
+        'btnHover' => '#9679A6',
+        'main' => '#169873',
+        'lightBlue' => '#90AC64',
+        'white' => '#16151C',
+        'nav'=> '#F49FBC',
+        'navHover' => '#F6B0C8',
         'error'=> 'red',
     ],
 ];
@@ -297,7 +303,7 @@ footer {
   color: <?php echo $colors['error']; ?>;
 }
 
-.loginForm {
+.loginForm, .themeForm {
   background-color: <?php echo $colors['navHover']; ?>;
   width: 400px;
   padding: 20px;
@@ -305,6 +311,53 @@ footer {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-size: 2em;
 }
+
+.themeForm input[type="radio"] {
+  display: none;
+}
+
+.themeForm input[type="radio"] + label {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 20px;
+}
+
+.themeForm input[type="radio"] + label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  border: 2px solid <?php echo $colors['btn']; ?>;
+}
+
+.themeForm input[type="radio"]:checked + label:before {
+  background-color: <?php echo $colors['main']; ?>;
+  border-color: <?php echo $colors['main']; ?>;
+}
+
+.themeForm input[type="radio"]:checked + label {
+  color: <?php echo $colors['main']; ?>;
+}
+
+.themeForm label {
+  margin-right: 15px;
+  padding: 5px;
+}
+
+.themeForm input[type="radio"] {
+  margin-right: 5px;
+}
+
+.themeForm {
+  margin-top: 20px;
+}
+
 
 .button-wrapper {
   display: flex;
