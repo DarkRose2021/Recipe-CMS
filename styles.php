@@ -57,14 +57,12 @@ html, body {
   font-style: normal;
 }
 
-/* For WebKit browsers (Chrome, Safari) */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* For Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -72,7 +70,7 @@ input[type="number"] {
 h1 {
   color: <?php echo $colors['main']; ?>;
   text-align: center;
-  font-size: 2em;
+  font-size: 2.5em;
 }
 
 h3{
@@ -219,13 +217,22 @@ footer {
   border-radius: 10px;
   padding: 15px;
   width: 500px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recipeCard:nth-child(even){
+  background-color: <?php echo $colors['lightBlue']; ?>;
+  color: <?php echo $colors['bg']; ?>;
 }
 
 .recipeCard:hover {
   transform: scale(1.03);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.recipeCard:nth-child(even) .recipeTitle{
+  color: <?php echo $colors['navHover']; ?>;
 }
 
 .recipeTitle {
@@ -242,11 +249,26 @@ footer {
   margin: 5px 0;
 }
 
+.recipeCard:nth-child(even) .recipeDescription,
+.recipeCard:nth-child(even) .recipeTime,
+.recipeCard:nth-child(even) .recipeServings {
+  font-size: 1em;
+  color: <?php echo $colors['bg']; ?>;
+  margin: 5px 0;
+}
+
 .ingredientsTitle,
 .directionsTitle {
   font-size: 1.2em;
   margin-top: 10px;
   color: <?php echo $colors['lightBlue']; ?>;
+}
+
+.recipeCard:nth-child(even) .ingredientsTitle,
+.recipeCard:nth-child(even) .directionsTitle {
+  font-size: 1.2em;
+  margin-top: 10px;
+  color: <?php echo $colors['main']; ?>;
 }
 
 .ingredientsList,
@@ -264,6 +286,11 @@ footer {
   color: <?php echo $colors['bg']; ?>;
   text-align: center;
   border-radius: 5px;
+}
+
+.recipeCard:nth-child(even) .recipeCategory{
+  background-color: <?php echo $colors['navHover']; ?>;
+  color: <?php echo $colors['white']; ?>;
 }
 
 .ingredientItem,
@@ -472,4 +499,33 @@ footer {
 .submit-button{
   margin-top: 5%;
   width: 100%;
+}
+
+.allUsers{
+  display: flex;
+  justify-content:space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.users{
+  background-color: <?php echo $colors['navHover'] ?> ;
+  width: 300px;
+  padding: 1%;
+  border-radius: 10px;
+}
+
+.users h3{
+  font-size: 2em;
+}
+
+.userBtn{
+  margin-top: 2%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userBtn a{
+  font-size: 1.3em;
 }

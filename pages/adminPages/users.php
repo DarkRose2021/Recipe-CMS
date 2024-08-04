@@ -13,22 +13,21 @@ $users = getAllUsers();
 <h1>Users</h1>
 
 <?php if (!empty($users)): ?>
-  <table border="1">
-    <tr>
-      <th>Email</th>
-      <th>Admin Status</th>
-    </tr>
+  <div class="allUsers">
     <?php foreach ($users as $user): ?>
-      <tr>
-        <td><?php echo htmlspecialchars($user['Email']); ?></td>
-        <td><?php echo htmlspecialchars($user['isAdmin'] ? 'Yes' : 'No'); ?></td>
-        <td><a href='index.php?page=/adminPages/editUsers&id=<?php echo htmlspecialchars($user['UserId']); ?>'><button>Edit
-              User</button></a></td>
-        <td><a href='index.php?page=/adminPages/deleteUsers&id=<?php echo htmlspecialchars($user['UserId']); ?>'><button>Delete
-              User</button></a></td>
-      </tr>
-    <?php endforeach; ?>
-  </table>
+      <div class="users">
+
+        <h3>Email: <?php echo htmlspecialchars($user['Email']); ?></h3>
+        <h3>Admin Status: <?php echo htmlspecialchars($user['isAdmin'] ? 'Yes' : 'No'); ?></h3>
+        <div class="userBtn">
+          <a href='index.php?page=/adminPages/editUsers&id=<?php echo htmlspecialchars($user['UserId']); ?>'>Edit
+            User</a>
+          <a href='index.php?page=/adminPages/deleteUsers&id=<?php echo htmlspecialchars($user['UserId']); ?>'>Delete
+            User</a>
+        </div>
+      </div><?php endforeach; ?>
+  </div>
+
 <?php else: ?>
   <p>No users found.</p>
 <?php endif; ?>
