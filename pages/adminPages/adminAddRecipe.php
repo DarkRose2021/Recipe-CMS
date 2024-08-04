@@ -7,119 +7,140 @@ if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    $category = $_POST['category'];
-    $prepTime = $_POST['prep_time'];
-    $cookTime = $_POST['cook_time'];
-    $totalTime = $_POST['total_time'];
-    $servings = $_POST['servings'];
-    $authorId = $_SESSION['user_id'];
+  $title = $_POST['title'];
+  $description = $_POST['description'];
+  $category = $_POST['category'];
+  $prepTime = $_POST['prep_time'];
+  $cookTime = $_POST['cook_time'];
+  $totalTime = $_POST['total_time'];
+  $servings = $_POST['servings'];
+  $authorId = $_SESSION['user_id'];
 
-    $recipeId = createRecipe($title, $description, $category, $prepTime, $cookTime, $totalTime, $servings, $authorId);
+  $recipeId = createRecipe($title, $description, $category, $prepTime, $cookTime, $totalTime, $servings, $authorId);
 
-    if ($recipeId) {
-        foreach ($_POST['ingredient_name'] as $index => $ingredientName) {
-            $quantity = $_POST['ingredient_quantity'][$index];
-            $unit = $_POST['ingredient_unit'][$index];
+  if ($recipeId) {
+    foreach ($_POST['ingredient_name'] as $index => $ingredientName) {
+      $quantity = $_POST['ingredient_quantity'][$index];
+      $unit = $_POST['ingredient_unit'][$index];
 
-            $result = addRecipeIngredient($recipeId['LAST_INSERT_ID()'], $ingredientName, $unit, $quantity);
-            if (!$result) {
-                echo "Failed to add ingredient: $ingredientName";
-            }
-        }
-
-        foreach ($_POST['instruction_step'] as $index => $stepNumber) {
-            $instructionDescription = $_POST['instruction_description'][$index];
-            $result = addInstruction($recipeId['LAST_INSERT_ID()'], $stepNumber, $instructionDescription);
-            if (!$result) {
-                echo "Failed to add instruction step $stepNumber";
-            }
-        }
-
-        echo "Recipe added successfully!";
-    } else {
-        echo "Failed to create recipe.";
+      $result = addRecipeIngredient($recipeId['LAST_INSERT_ID()'], $ingredientName, $unit, $quantity);
+      if (!$result) {
+        echo "Failed to add ingredient: $ingredientName";
+      }
     }
+
+    foreach ($_POST['instruction_step'] as $index => $stepNumber) {
+      $instructionDescription = $_POST['instruction_description'][$index];
+      $result = addInstruction($recipeId['LAST_INSERT_ID()'], $stepNumber, $instructionDescription);
+      if (!$result) {
+        echo "Failed to add instruction step $stepNumber";
+      }
+    }
+
+    echo "Recipe added successfully!";
+  } else {
+    echo "Failed to create recipe.";
+  }
 }
 ?>
 
 <h1>Add a New Recipe</h1>
-<form action="index.php?page=adminPages/adminAddRecipe" method="POST">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required><br><br>
+<form action="index.php?page=adminPages/adminAddRecipe" method="POST" class="recipe-form">
+  <input type="hidden" name="id" value="">
 
-    <label for="description">Description:</label>
-    <textarea id="description" name="description" required></textarea><br><br>
+  <label for="title" class="form-label">Title:</label>
+  <input type="text" id="title" name="title" required class="form-input"><br>
 
-    <label for="category">Category:</label>
-    <input type="text" id="category" name="category" required><br><br>
+  <label for="description" class="form-label">Description:</label>
+  <textarea id="description" name="description" required class="form-textarea"></textarea><br>
 
-    <label for="prep_time">Prep Time (minutes):</label>
-    <input type="number" id="prep_time" name="prep_time" required><br><br>
+  <label for="category" class="form-label">Category:</label>
+  <input type="text" id="category" name="category" required class="form-input"><br>
 
-    <label for="cook_time">Cook Time (minutes):</label>
-    <input type="number" id="cook_time" name="cook_time" required><br><br>
+  <label for="prep_time" class="form-label">Prep Time (minutes):</label>
+  <input type="number" id="prep_time" name="prep_time" required class="form-input"><br>
 
-    <label for="total_time">Total Time (minutes):</label>
-    <input type="number" id="total_time" name="total_time" required><br><br>
+  <label for="cook_time" class="form-label">Cook Time (minutes):</label>
+  <input type="number" id="cook_time" name="cook_time" required class="form-input"><br>
 
-    <label for="servings">Servings:</label>
-    <input type="number" id="servings" name="servings" required><br><br>
+  <label for="total_time" class="form-label">Total Time (minutes):</label>
+  <input type="number" id="total_time" name="total_time" required class="form-input"><br>
 
-    <h3>Ingredients</h3>
-    <div id="ingredients">
-        <div class="ingredient">
-            <label for="ingredient_name[]">Name:</label>
-            <input type="text" name="ingredient_name[]" required>
-            <label for="ingredient_quantity[]">Quantity:</label>
-            <input type="number" step="0.01" name="ingredient_quantity[]" required>
-            <label for="ingredient_unit[]">Unit:</label>
-            <input type="text" name="ingredient_unit[]" required><br><br>
-        </div>
+  <label for="servings" class="form-label">Servings:</label>
+  <input type="number" id="servings" name="servings" required class="form-input"><br>
+
+  <h2>Ingredients</h2>
+  <div id="ingredients" class="form-group">
+    <div class="ingredient-item">
+      <label for="ingredient_name[]" class="form-label">Name:</label>
+      <input type="text" name="ingredient_name[]" required class="form-input"><br>
+      <label for="ingredient_quantity[]" class="form-label">Quantity:</label>
+      <input type="number" step="0.01" name="ingredient_quantity[]" required class="form-input"><br>
+      <label for="ingredient_unit[]" class="form-label">Unit:</label>
+      <input type="text" name="ingredient_unit[]" required class="form-input"><br>
     </div>
-    <button type="button" onclick="addIngredient()">Add Another Ingredient</button><br><br>
+  </div>
+  <button type="button" id="add-ingredient" class="add-button">Add Another Ingredient</button><br>
 
-    <h3>Directions</h3>
-    <div id="instructions">
-        <div class="instruction">
-            <label for="instruction_step[]">Step:</label>
-            <input type="number" name="instruction_step[]" required>
-            <label for="instruction_description[]">Description:</label>
-            <textarea name="instruction_description[]" required></textarea><br><br>
-        </div>
+  <h2>Instructions</h2>
+  <div id="instructions" class="form-group">
+    <div class="instruction-item">
+      <label for="instruction_step[]" class="form-label">Step:</label>
+      <input type="number" name="instruction_step[]" required class="form-input"><br>
+      <label for="instruction_description[]" class="form-label">Description:</label>
+      <textarea name="instruction_description[]" required class="form-textarea"></textarea><br>
     </div>
-    <button type="button" onclick="addInstruction()">Add Another Step</button><br><br>
+  </div>
+  <button type="button" id="add-instruction" class="add-button">Add Another Step</button><br>
 
-    <input type="submit" value="Add Recipe">
+  <input type="submit" value="Add Recipe" class="submit-button">
 </form>
 
 <script>
-    function addIngredient() {
-        const ingredientsDiv = document.getElementById('ingredients');
-        const newIngredientDiv = document.createElement('div');
-        newIngredientDiv.className = 'ingredient';
-        newIngredientDiv.innerHTML = `
-            <label for="ingredient_name[]">Name:</label>
-            <input type="text" name="ingredient_name[]" required>
-            <label for="ingredient_quantity[]">Quantity:</label>
-            <input type="number" step="0.01" name="ingredient_quantity[]" required>
-            <label for="ingredient_unit[]">Unit:</label>
-            <input type="text" name="ingredient_unit[]" required><br><br>
-        `;
-        ingredientsDiv.appendChild(newIngredientDiv);
-    }
+  document.addEventListener('DOMContentLoaded', function () {
+    const ingredientsContainer = document.getElementById('ingredients');
+    const instructionsContainer = document.getElementById('instructions');
 
-    function addInstruction() {
-        const instructionsDiv = document.getElementById('instructions');
-        const newInstructionDiv = document.createElement('div');
-        newInstructionDiv.className = 'instruction';
-        newInstructionDiv.innerHTML = `
-            <label for="instruction_step[]">Step:</label>
-            <input type="number" name="instruction_step[]" required>
-            <label for="instruction_description[]">Description:</label>
-            <textarea name="instruction_description[]" required></textarea><br><br>
-        `;
-        instructionsDiv.appendChild(newInstructionDiv);
-    }
+    document.getElementById('add-ingredient').addEventListener('click', function () {
+      const index = ingredientsContainer.children.length;
+      const newIngredientHtml = `
+          <div class="ingredient-item">
+              <label class="form-label">Name:</label>
+              <input type="text" name="ingredient_name[]" required class="form-input"><br>
+              <label class="form-label">Quantity:</label>
+              <input type="number" step="0.01" name="ingredient_quantity[]" required class="form-input"><br>
+              <label class="form-label">Unit:</label>
+              <input type="text" name="ingredient_unit[]" required class="form-input"><br>
+              <button type="button" class="remove-ingredient">Remove</button>
+          </div>
+      `;
+      ingredientsContainer.insertAdjacentHTML('beforeend', newIngredientHtml);
+    });
+
+    document.getElementById('add-instruction').addEventListener('click', function () {
+      const index = instructionsContainer.children.length;
+      const newInstructionHtml = `
+          <div class="instruction-item">
+              <label class="form-label">Step:</label>
+              <input type="number" name="instruction_step[]" required class="form-input"><br>
+              <label class="form-label">Description:</label>
+              <textarea name="instruction_description[]" required class="form-textarea"></textarea><br>
+              <button type="button" class="remove-instruction">Remove</button>
+          </div>
+      `;
+      instructionsContainer.insertAdjacentHTML('beforeend', newInstructionHtml);
+    });
+
+    ingredientsContainer.addEventListener('click', function (e) {
+      if (e.target.classList.contains('remove-ingredient')) {
+        e.target.parentElement.remove();
+      }
+    });
+
+    instructionsContainer.addEventListener('click', function (e) {
+      if (e.target.classList.contains('remove-instruction')) {
+        e.target.parentElement.remove();
+      }
+    });
+  });
 </script>

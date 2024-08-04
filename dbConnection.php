@@ -65,13 +65,15 @@ function getAllRecipes(): array
   return $response->fetch_all(MYSQLI_ASSOC);
 }
 
-function getRecipesByCategory($category): array{
+function getRecipesByCategory($category): array
+{
   $query = 'SELECT * FROM recipe WHERE category = ?';
   $response = getConnection()->execute_query($query, [$category]);
   return $response->fetch_all(MYSQLI_ASSOC);
 }
 
-function get3RandomRecipes(): array{
+function get3RandomRecipes(): array
+{
   $query = 'SELECT * FROM recipe ORDER BY RAND() LIMIT 3';
   $response = getConnection()->query($query);
 

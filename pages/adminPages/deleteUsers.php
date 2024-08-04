@@ -2,15 +2,15 @@
 session_start();
 
 if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
-    header("Location: adminLogin.php");
-    exit();
+  header("Location: adminLogin.php");
+  exit();
 }
 
 require 'dbConnection.php';
 
 $userId = isset($_GET['id']) ? intval($_GET['id']) : null;
 if (!$userId) {
-    die("<h2 class='error'>No User ID provided.</h2>");
+  die("<h2 class='error'>No User ID provided.</h2>");
 }
 
 if ($userId == 1) {

@@ -8,8 +8,8 @@ if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
 ?>
 
 <h1>Admin Dashboard</h1>
-<ul>
-  <li><a href="index.php?page=adminPages/adminAddRecipe">Add recipe</a></li>
-  <li><a href="index.php?page=adminPages/users">Users</a></li>
-  <li><a href="index.php?page=adminPages/ChangeTheme">Change Theme</a></li>
-</ul>
+<div class="dashboardBtn">
+  <a href="index.php?page=adminPages/adminAddRecipe">Add recipe</a>
+  <a href="index.php?page=adminPages/users">Users</a>
+  <a href="index.php?page=adminPages/ChangeTheme">Change Theme</a>
+</div>

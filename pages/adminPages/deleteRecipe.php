@@ -11,7 +11,7 @@ require 'dbConnection.php';
 $recipeId = isset($_GET['id']) ? intval($_GET['id']) : null;
 
 if (!$recipeId) {
-  die('No recipe ID provided.');
+  die("<h2 class='error'>No recipe ID provided.</h2>");
 }
 
 $ingredients = removeRecipeIngredient($recipeId);
@@ -19,7 +19,7 @@ $instructions = deleteInstruction($recipeId);
 
 $recipe = deleteRecipe($recipeId);
 if (!$recipe || !$ingredients || !$instructions) {
-  die('Recipe not Found');
+  die("<h2 class='error'>Recipe not Found</h2>");
 }
 
 header('Location: index.php?page=recipe');

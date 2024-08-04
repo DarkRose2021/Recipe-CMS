@@ -2,8 +2,8 @@
 session_start();
 
 if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
-    header("Location: adminLogin.php");
-    exit();
+  header("Location: adminLogin.php");
+  exit();
 }
 
 require 'dbConnection.php';
@@ -14,21 +14,21 @@ if (!$userId) {
 }
 
 if ($userId == 1) {
-die("<h2 class='error'>Cannot edit that user</h2>");
+  die("<h2 class='error'>Cannot edit that user</h2>");
 }
 
 $user = getUserById($userId);
 if (!$user) {
-  die('No User Found');
+  die("<h2 class='error'>No User Found</h2>");
 }
 
-switch($user['isAdmin']){
+switch ($user['isAdmin']) {
   case '1':
     $isAdmin = 0;
     break;
-    case '0':
-      $isAdmin = 1;
-      break;
+  case '0':
+    $isAdmin = 1;
+    break;
 }
 
 $delUser = updateUser($userId, $isAdmin);

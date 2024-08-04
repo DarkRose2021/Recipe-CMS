@@ -9,9 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  if($email === $emailConfirm && $password === $passwordConfirm) {
+  if ($email === $emailConfirm && $password === $passwordConfirm) {
     $user = createUser($email, $password);
-    if($user) {
+    if ($user) {
       $newUser = getUserByEmail($email);
       $_SESSION['admin_logged_in'] = false;
       $_SESSION['user_id'] = $newUser['UserId'];
@@ -20,24 +20,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
       echo "<h2 class='error'>Error creating account</h2>";
     }
-  }else{
+  } else {
     echo "<h2 class='error'>Email or password don't match</h2>";
   }
 }
 ?>
+<div class="button-wrapper">
 
-<form method="POST" action="index.php?page=signup">
-  <label for="email">Email</label>
-  <input type="email" id="email" name="email" required />
-  
-  <label for="confirm_email">Confirm Email</label>
-  <input type="email" id="confirm_email" name="confirm_email" required />
-  
-  <label for="password">Password</label>
-  <input type="password" id="password" name="password" required />
-  
-  <label for="confirm_password">Confirm Password</label>
-  <input type="password" id="confirm_password" name="confirm_password" required />
-  
-  <button type="submit">Sign Up</button>
-</form>
+  <div class="loginForm">
+    <h2>Signup</h2>
+
+    <form method="POST" action="index.php?page=signup">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="confirm_email">Confirm Email</label>
+      <input type="email" id="confirm_email" name="confirm_email" required /><br />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required /><br />
+
+      <label for="confirm_password">Confirm Password</label>
+      <input type="password" id="confirm_password" name="confirm_password" required /><br />
+      <div class="button-wrapper">
+        <button class="submit-button" type="submit">Sign Up</button>
+      </div>
+    </form>
+  </div>
+</div>

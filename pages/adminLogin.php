@@ -26,17 +26,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 ?>
+<div class="button-wrapper">
+  <div class="loginForm">
+    <h2>Login</h2>
+    
+    <form method="POST" action="index.php?page=adminLogin">
+      <label for="email">Email</label>
+      <input type="text" id="email" name="email" required /><br />
 
-<form method="POST" action="index.php?page=adminLogin">
-  <label for="email">Email</label>
-  <input type="text" id="email" name="email" required />
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required /><br />
 
-  <label for="password">Password</label>
-  <input type="password" id="password" name="password" required />
-
-  <button type="submit">Login</button>
-</form>
-
-<br />
-
-<a href="index.php?page=signup">No Account? sign up here!</a>
+      <div class="button-wrapper">
+        <button class="submit-button" type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+</div>

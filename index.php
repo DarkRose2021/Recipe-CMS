@@ -43,7 +43,9 @@
       </div>
     </div>
   </nav>
-
+  <br />
+  <br />
+  <br />
   <main>
     <?php
     $page = isset($_GET['page']) ? $_GET['page'] : 'home';
@@ -59,7 +61,12 @@
   </main>
 
   <br />
-  <footer> Copyright &copy; 2024 | Katie King, Jace Banford-Byington, & Henry Rodriguez Berber | Placeholder text on
+  <br />
+  <br />
+  <br />
+  <br />
+  <footer> Copyright &copy; 2024 | Katie King<span class="otherPpl">, Jace Banford-Byington, & Henry Rodriguez
+      Berber</span> | Placeholder text on
     home, about, and contact is AI Generated
   </footer>
 
