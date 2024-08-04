@@ -1,10 +1,18 @@
 <?php
+session_start();
 require_once 'dbConnection.php';
 
 $recipes = getAllRecipes();
 ?>
 
 <h1>All Recipes</h1>
+
+<div>
+  <a href="index.php?page=filteredRecipes&filter=breakfast"><button>Breakfast</button></a>
+  <a href="index.php?page=filteredRecipes&filter=lunch"><button>Lunch</button></a>
+  <a href="index.php?page=filteredRecipes&filter=dinner"><button>Dinner</button></a>
+  <a href="index.php?page=filteredRecipes&filter=dessert"><button>Dessert</button></a>
+</div>
 
 <?php if (count($recipes) > 0): ?>
   <div class="allRecipes">
