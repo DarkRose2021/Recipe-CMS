@@ -21,10 +21,10 @@ function getAllUsers(): array
   return $response->fetch_all(MYSQLI_ASSOC);
 }
 
-function createUser($email, $passwordHash): mysqli_result|bool
+function createUser($email, $password): mysqli_result|bool
 {
-  $query = "INSERT INTO Users (Email, Password) VALUES (?, ?)";
-  return getConnection()->execute_query($query, [$email, $passwordHash]);
+  $query = "INSERT INTO Users (Email, Password, isAdmin) VALUES (?, ?, 0)";
+  return getConnection()->execute_query($query, [$email, $password]);
 }
 
 function getUserByEmail($email): false|array|null

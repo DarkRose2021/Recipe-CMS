@@ -9,14 +9,14 @@
 </head>
 
 <body>
-<?php
-session_start();
-if(!isset($_SESSION['theme'])){
-  $_SESSION['theme'] = 'default';
-}
-?>
-  
-<nav class="navbar">
+  <?php
+  session_start();
+  if (!isset($_SESSION['theme'])) {
+    $_SESSION['theme'] = 'default';
+  }
+  ?>
+
+  <nav class="navbar">
     <div class="container">
       <a class="navbar-brand" href="index.php?page=home">Recipe CMS</a>
       <div class="navbar-links">
@@ -24,18 +24,22 @@ if(!isset($_SESSION['theme'])){
         <a href="index.php?page=about">About</a>
         <a href="index.php?page=contact">Contact</a>
         <a href="index.php?page=recipe">Recipes</a>
+
         <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']): ?>
-        <a href="index.php?page=adminPages/adminDashboard">Admin Dashboard</a>
+          <a href="index.php?page=adminPages/adminDashboard">Admin Dashboard</a>
         <?php endif; ?>
-        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] && $_SESSION['admin_logged_in'] == false): ?>
+
+        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] && !$_SESSION['admin_logged_in']): ?>
           <a href="index.php?page=addRecipe">Add Recipe</a>
-      <?php else: ?>
+        <?php endif; ?>
+
         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id']): ?>
           <a href="index.php?page=logout">Logout</a>
-      <?php else: ?>
-        <a href="index.php?page=adminLogin">Login</a>
-        <a href="index.php?page=signup">Signup</a>
-      <?php endif; ?>
+
+        <?php else: ?>
+          <a href="index.php?page=adminLogin">Login</a>
+          <a href="index.php?page=signup">Signup</a>
+        <?php endif; ?>
       </div>
     </div>
   </nav>
