@@ -1,7 +1,8 @@
 <?php
 session_start();
+require_once 'dbConnection.php';
 
-if (!isset($_SESSION['user_id']) || $_SESSION['admin_logged_in']) {
+if (!isset($_SESSION['user_id']) || $_SESSION['admin_logged_in'] == true) {
   header("Location: index.php?page=home");
   exit();
 }
@@ -45,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <h1>Add a New Recipe</h1>
-<form action="index.php?page=adminPages/adminAddRecipe" method="POST">
+<form action="index.php?page=addRecipe" method="POST">
     <label for="title">Title:</label>
     <input type="text" id="title" name="title" required><br><br>
 

@@ -3,6 +3,7 @@ session_start();
 require_once 'dbConnection.php';
 
 $recipes = getAllRecipes();
+$userId = $_SESSION["user_id"];
 ?>
 
 <h1>All Recipes</h1>
@@ -45,10 +46,11 @@ $recipes = getAllRecipes();
                 <li><?php echo htmlspecialchars($instruction['Description']); ?></li>
             <?php endforeach; ?>
         </ol>
-        <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']): ?>
-        <a href="index.php?page=adminPages/editRecipe&id=<?php echo htmlspecialchars($recipe['RecipeID']); ?>"><button>Edit Recipe</button></a>
-        
-        <a href="index.php?page=adminPages/deleteRecipe&id=<?php echo htmlspecialchars($recipe['RecipeID']); ?>" ?><button>Delete Recipe</button></a>
+        <?php if ($userId == $recipe['AuthorID']): ?>
+        <a href="index.php?page=editRecipe&id=<?php echo htmlspecialchars($recipe['RecipeID']); ?>"><button>Edit Recipe</button></a>
+        <?php elseif ($_SESSION['$isAdmin']): ?>
+          <a href="index.php?page=adminPages/editRecipe&id=<?php echo htmlspecialchars($recipe['RecipeID']); ?>"><button>Edit Recipe</button></a>
+          <a href="index.php?page=adminPages/deleteRecipe&id=<?php echo htmlspecialchars($recipe['RecipeID']); ?>"><button>Delete Recipe</button></a>
         <?php endif; ?>
         </div>
     <?php endforeach; ?>
