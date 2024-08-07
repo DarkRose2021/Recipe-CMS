@@ -6,6 +6,8 @@ if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
   exit();
 }
 
+require_once 'dbConnection.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $title = $_POST['title'];
   $description = $_POST['description'];
@@ -25,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       $result = addRecipeIngredient($recipeId['LAST_INSERT_ID()'], $ingredientName, $unit, $quantity);
       if (!$result) {
-        echo "Failed to add ingredient: $ingredientName";
+        echo "<h3 class='error'>Failed to add ingredient: $ingredientName</h3>";
       }
     }
 
@@ -33,13 +35,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $instructionDescription = $_POST['instruction_description'][$index];
       $result = addInstruction($recipeId['LAST_INSERT_ID()'], $stepNumber, $instructionDescription);
       if (!$result) {
-        echo "Failed to add instruction step $stepNumber";
+        echo "<h3 class='error'>Failed to add instruction step $stepNumber</h3>";
       }
     }
 
-    echo "Recipe added successfully!";
+    echo "<h3 class='success'>Recipe added successfully!</h3>";
   } else {
-    echo "Failed to create recipe.";
+    echo "<h3 class='error'>Failed to create recipe.</h3>";
   }
 }
 ?>
