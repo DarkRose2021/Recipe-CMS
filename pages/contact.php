@@ -28,5 +28,9 @@
     from recipe troubleshooting to general site feedback. Your input is invaluable in helping us improve and serve you
     better.</p>
 
-  <div>[Contact Form Placeholder]</div>
+  <div>
+    <?php
+    include_once ("contactForm.php");
+       ?>
+  </div>
 </div>
