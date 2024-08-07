@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       $result = addRecipeIngredient($recipeId['LAST_INSERT_ID()'], $ingredientName, $unit, $quantity);
       if (!$result) {
-        echo "Failed to add ingredient: $ingredientName";
+        echo "<h3 class='error'>Failed to add ingredient: $ingredientName</h3>";
       }
     }
 
@@ -34,19 +34,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $instructionDescription = $_POST['instruction_description'][$index];
       $result = addInstruction($recipeId['LAST_INSERT_ID()'], $stepNumber, $instructionDescription);
       if (!$result) {
-        echo "Failed to add instruction step $stepNumber";
+        echo "<h3 class='error'>Failed to add instruction step $stepNumber</h3>";
       }
     }
 
-    echo "Recipe added successfully!";
+    echo "<h3 class='success'>Recipe added successfully!</h3>";
   } else {
-    echo "Failed to create recipe.";
+    echo "<h3 class='error'>Failed to create recipe.</h3>";
   }
 }
 ?>
 
 <h1>Add a New Recipe</h1>
-<form action="index.php?page=adminPages/adminAddRecipe" method="POST" class="recipe-form">
+<form action="index.php?page=addRecipe" method="POST" class="recipe-form">
   <input type="hidden" name="id" value="">
 
   <label for="title" class="form-label">Title:</label>

@@ -12,6 +12,7 @@ $themes = [
         'nav'=> '#182429',
         'navHover' => '#19383B',
         'error'=> 'red',
+        'success'=> 'green',
     ],
     'halloween' => [
         'bg' => '#363039 ',
@@ -23,6 +24,7 @@ $themes = [
         'nav'=> '#872FE0',
         'navHover' => '#5F308D',
         'error'=> 'red',
+        'success'=> 'green',
     ],
     'bloomingOasis' => [
         'bg' => '#FFD3BA',
@@ -34,6 +36,7 @@ $themes = [
         'nav'=> '#F49FBC',
         'navHover' => '#F6B0C8',
         'error'=> 'red',
+        'success'=> 'green',
     ],
 ];
 
@@ -328,6 +331,12 @@ footer {
   text-align: center;
   font-size: 1.2em;
   color: <?php echo $colors['error']; ?>;
+}
+
+.success{
+  text-align: center;
+  font-size: 1.2em;
+  color: <?php echo $colors['success']; ?>;
 }
 
 .loginForm, .themeForm {
